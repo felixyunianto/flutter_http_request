@@ -17,6 +17,8 @@ class _MyAppState extends State<MyApp> {
   PostResult? postResult = null;
   User? user = null;
 
+  String output = "Tidak ada data";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,17 +30,23 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(user != null
-                  ? user!.id + " | " + user!.name
-                  : "Tidak ada data"),
+              Text(output),
               ElevatedButton(
                   onPressed: () {
-                    User.connectToAPI("5").then((value) {
-                      user = value;
+                    // User.connectToAPI("5").then((value) {
+                    //   user = value;
+                    //   setState(() {});
+                    // });
+
+                    User.getUsers("2").then((users) {
+                      output = "";
+
+                      for (int i = 0; i < users.length; i++)
+                        output = output + "[ " + users[i].name + " ]";
                       setState(() {});
                     });
                   },
-                  child: Text("GET"))
+                  child: Text("GET LIST"))
             ],
           ),
         ),
